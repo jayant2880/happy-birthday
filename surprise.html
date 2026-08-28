@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>one more thing 💗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Nunito:wght@400;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-a:#fff2f6;
+  --bg-b:#ffe1ec;
+  --bg-c:#ffd2e2;
+  --pink:#ff8fab;
+  --pink-strong:#e8577a;
+  --pink-pale:#ffe1ea;
+  --gold:#f4b860;
+  --gold-soft:#ffd699;
+  --lavender:#b98fd1;
+  --text:#5c2c40;
+  --text-soft:#8a5468;
+  --white:#fffaf7;
+  --line: rgba(232,87,122,0.22);
+  --shadow: 0 20px 50px rgba(232,87,122,0.18);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:linear-gradient(180deg, var(--bg-a), var(--bg-b) 45%, var(--bg-c) 100%);
+  background-attachment:fixed;
+  color:var(--text);
+  font-family:'Nunito', sans-serif;
+  overflow-x:hidden;
+  min-height:100vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:80px 20px;
+  text-align:center;
+  position:relative;
+}
+h1,h2,h3, .display{ font-family:'Cormorant Garamond', serif; font-weight:600; letter-spacing:0.01em; }
+.hand{ font-family:'Caveat', cursive; }
+::selection{ background:var(--pink); color:#fff; }
+
+#sparkle-bg{ position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+#confetti-canvas{ position:fixed; inset:0; z-index:60; pointer-events:none; }
+
+.wrap{ position:relative; z-index:2; max-width:640px; width:100%; }
+
+.eyebrow{ text-transform:uppercase; letter-spacing:0.3em; font-size:0.72rem; color:var(--pink-strong); font-weight:700; margin-bottom:16px; }
+.title{ font-size:clamp(2rem, 7vw, 3.4rem); font-style:italic; margin-bottom:18px; color:#4a2436; }
+
+.pre-text{ color:var(--text-soft); font-size:1.02rem; line-height:1.8; max-width:480px; margin:0 auto 40px; }
+
+/* gift box */
+.gift-wrap{ display:flex; flex-direction:column; align-items:center; margin-bottom:10px; }
+.gift{ width:130px; height:110px; position:relative; cursor:pointer; margin-bottom:26px; transition:transform 0.25s cubic-bezier(.34,1.56,.64,1); }
+.gift:hover{ transform:translateY(-4px) scale(1.03); }
+.gift.opened{ pointer-events:none; }
+.gift-base{ position:absolute; bottom:0; left:0; width:100%; height:72px; background:linear-gradient(135deg, var(--pink), var(--pink-strong)); border-radius:8px; box-shadow:0 16px 30px rgba(232,87,122,0.28); }
+.gift-lid{ position:absolute; top:22px; left:-8px; width:calc(100% + 16px); height:26px; background:linear-gradient(135deg, var(--gold), #e6a548); border-radius:6px; transition:transform 0.5s cubic-bezier(.34,1.2,.4,1), opacity 0.5s ease; transform-origin:top center; }
+.gift.opened .gift-lid{ transform:translateY(-46px) rotate(-18deg); opacity:0; }
+.gift-ribbon-v{ position:absolute; top:0; left:50%; transform:translateX(-50%); width:14px; height:100%; background:var(--gold-soft); }
+.gift-ribbon-h{ position:absolute; top:22px; left:0; width:100%; height:14px; background:var(--gold-soft); }
+.gift-bow{ position:absolute; top:-14px; left:50%; transform:translateX(-50%); font-size:1.6rem; transition:transform 0.5s ease, opacity 0.5s ease; }
+.gift.opened .gift-bow{ transform:translate(-50%,-40px) scale(0.8); opacity:0; }
+.gift-glow{ position:absolute; top:14px; left:50%; transform:translateX(-50%); width:60px; height:60px; border-radius:50%; background:radial-gradient(circle, rgba(255,214,120,0.9), transparent 70%); opacity:0; transition:opacity 0.4s ease; pointer-events:none; }
+.gift.opened .gift-glow{ opacity:1; animation: glow-pulse 1.6s ease-in-out infinite; }
+@keyframes glow-pulse{ 0%,100%{ transform:translateX(-50%) scale(1); } 50%{ transform:translateX(-50%) scale(1.25); } }
+.gift-hint{ font-size:0.82rem; color:var(--text-soft); margin-bottom:6px; }
+
+/* revealed content */
+.reveal-content{ opacity:0; max-height:0; overflow:hidden; transition:opacity 0.8s ease, max-height 1s ease; }
+.reveal-content.show{ opacity:1; max-height:1200px; }
+
+.letter-card{ text-align:left; background:rgba(255,255,255,0.6); border:1px solid var(--line); border-radius:6px 26px 6px 26px; padding:clamp(26px,5vw,44px); margin:30px 0; position:relative; backdrop-filter:blur(6px); }
+.letter-card::before{ content:'💗'; position:absolute; top:-20px; left:32px; font-size:1.3rem; background:var(--white); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); }
+.letter-card p{ font-size:clamp(1rem, 2.2vw, 1.12rem); line-height:1.9; margin-bottom:16px; color:var(--text); }
+.letter-card p:last-child{ margin-bottom:0; }
+.signoff{ font-family:'Caveat', cursive; font-size:1.6rem; color:var(--pink-strong); text-align:right; margin-top:6px !important; }
+
+.promise-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:16px; margin:30px 0; }
+.promise{ padding:20px 18px; border-radius:16px; border:1px solid var(--line); background:rgba(255,255,255,0.5); }
+.promise .mark{ font-size:1.3rem; display:block; margin-bottom:8px; }
+.promise p{ font-size:0.92rem; color:var(--text-soft); line-height:1.6; }
+
+.final-line{ font-family:'Caveat', cursive; font-size:1.8rem; color:var(--pink-strong); margin:24px 0 8px; }
+
+.back-link{ display:inline-block; margin-top:30px; padding:14px 28px; border-radius:50px; border:1px solid var(--line); background:rgba(255,255,255,0.55); color:var(--pink-strong); text-decoration:none; font-weight:800; font-size:0.9rem; transition:transform 0.25s ease, background 0.25s ease; }
+.back-link:hover{ transform:translateY(-3px); background:rgba(255,255,255,0.85); }
+
+@media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; } }
+</style>
+</head>
+<body>
+
+<canvas id="sparkle-bg"></canvas>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="wrap">
+  <p class="eyebrow">okay, one more thing</p>
+  <h1 class="title">before you close the tab...</h1>
+  <p class="pre-text">You made it all the way here, thank you for reading and playing that games especially the sliding puzzle rage bait toh hui hogi aap 😂💞. There's one last little something. Go on, open it.</p>
+
+  <div class="gift-wrap">
+    <div class="gift" id="gift">
+      <div class="gift-glow"></div>
+      <div class="gift-bow">🎀</div>
+      <div class="gift-lid"></div>
+      <div class="gift-base">
+        <div class="gift-ribbon-v"></div>
+        <div class="gift-ribbon-h"></div>
+      </div>
+    </div>
+    <p class="gift-hint" id="gift-hint">(tap the gift)</p>
+  </div>
+
+  <div class="reveal-content" id="reveal-content">
+    <div class="letter-card">
+      <p class="eyebrow" style="margin-bottom:18px;">the actual last thing, I promise</p>
+      <p>If you’re reading this, then you’ve made it this far… 🥹❤️ And honestly, I hope every little thing on this website reminds you of just how special you are to me.</p>
+      <p>This whole page was made just for you, and honestly, not a single part of it felt like work — because it was all for you. ❤️ Every section, every silly little game, every cute little line… I put a piece of my heart into all of it. 🥹🫶🏻 I just hope that while going through this, you can feel how much you mean to me. Because making you smile will always be something I’ll happily do. ❤️🫂</p>
+      <p>So here's the actual one more thing: I'm not going anywhere. Not this year, not the year after. Whatever comes next, I want to be there for it, next to you, still holding your hand and loving you through every chapter.💞😘</p>
+      <p class="signoff">— always yours</p>
+    </div>
+
+    <div class="promise-grid">
+      <div class="promise"><span class="mark">🕯️</span><p>Every birthday after this one, I'll be there to see the candles out.</p></div>
+      <div class="promise"><span class="mark">📍</span><p>Wherever you are, that's the direction I'm walking in.</p></div>
+      <div class="promise"><span class="mark">💌</span><p>More letters, more silly pages, for as long as you'll let me write them.</p></div>
+    </div>
+
+    <p class="final-line">that's it, that's the surprise — happy birthday, my glitter angel biwii 💗</p>
+  </div>
+
+  <a class="back-link" href="index3.html">← back to the beginning</a>
+</div>
+
+<script>
+/* ambient sparkles, matching the main page */
+function initSparkles(){
+  const canvas = document.getElementById('sparkle-bg');
+  const ctx = canvas.getContext('2d');
+  let w,h,bits;
+  function resize(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = document.documentElement.scrollHeight;
+    bits = [];
+    const count = Math.floor((w*h)/16000);
+    for(let i=0;i<count;i++){
+      bits.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.6+0.6, tw:Math.random()*Math.PI*2, speed:Math.random()*0.02+0.006, heart: Math.random()<0.12 });
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(const s of bits){
+      s.tw += s.speed;
+      const alpha = 0.25 + Math.sin(s.tw)*0.2;
+      ctx.globalAlpha = Math.max(0,alpha);
+      if(s.heart){
+        ctx.font = (s.r*7)+'px serif';
+        ctx.fillStyle = '#ff8fab';
+        ctx.fillText('♥', s.x, s.y);
+      } else {
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle = '#f4b860';
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  draw();
+}
+initSparkles();
+
+/* confetti burst, matching the main page */
+function burstConfetti(){
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const colors = ['#ff8fab','#f4b860','#b98fd1','#fff0f5','#e8577a'];
+  let pieces = [];
+  for(let i=0;i<140;i++){
+    pieces.push({ x: Math.random()*canvas.width, y: -20 - Math.random()*canvas.height*0.5, w: 6+Math.random()*6, h: 8+Math.random()*10, color: colors[Math.floor(Math.random()*colors.length)], speed: 1.5+Math.random()*3, rot: Math.random()*360, rotSpeed: (Math.random()-0.5)*8, drift: (Math.random()-0.5)*1.5 });
+  }
+  let frames=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.y += p.speed; p.x += p.drift; p.rot += p.rotSpeed;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.color; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
+    });
+    frames++;
+    if(frames < 220){ requestAnimationFrame(draw); } else { ctx.clearRect(0,0,canvas.width,canvas.height); }
+  }
+  draw();
+}
+window.addEventListener('resize', ()=>{
+  const c = document.getElementById('confetti-canvas');
+  c.width = window.innerWidth; c.height = window.innerHeight;
+});
+
+/* gift open */
+const gift = document.getElementById('gift');
+const giftHint = document.getElementById('gift-hint');
+const revealContent = document.getElementById('reveal-content');
+let opened = false;
+gift.addEventListener('click', ()=>{
+  if(opened) return;
+  opened = true;
+  gift.classList.add('opened');
+  giftHint.textContent = 'for you 💗';
+  setTimeout(()=>{
+    revealContent.classList.add('show');
+    burstConfetti();
+  }, 350);
+});
+</script>
+</body>
+</html>
